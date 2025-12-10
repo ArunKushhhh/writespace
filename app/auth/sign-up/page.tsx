@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 
-export default function SignUp() {
+export default function SignUpPage() {
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {

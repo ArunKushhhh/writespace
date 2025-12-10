@@ -22,20 +22,26 @@ export function Navbar() {
           <p className="font-bold">WriteSpace</p>
         </Link>
         <nav>
-          <ul className="flex gap-2">
+          <ul className="hidden md:flex gap-2">
             <li>
               <Link href={"/"} className={buttonVariants({ variant: "ghost" })}>
                 Home
               </Link>
             </li>
             <li>
-              <Link href={"/"} className={buttonVariants({ variant: "ghost" })}>
+              <Link
+                href={"/blogs"}
+                className={buttonVariants({ variant: "ghost" })}
+              >
                 Blogs
               </Link>
             </li>
             <li>
-              <Link href={"/"} className={buttonVariants({ variant: "ghost" })}>
-                Write
+              <Link
+                href={"/create"}
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                Create
               </Link>
             </li>
           </ul>
