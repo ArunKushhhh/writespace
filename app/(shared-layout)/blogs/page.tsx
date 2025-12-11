@@ -9,9 +9,19 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "WriteSpace | Blogs",
+  description: "Find what people around the globe think...",
+  category: "Blogs",
+  authors: [{
+    name: "Austen"
+  }]
+};
 
 export const dynamic = "force-static"; // 'force-dynamic' | 'force-static' | "auto" | "error"
 
