@@ -22,7 +22,7 @@ export function Navbar() {
           <p className="font-bold">WriteSpace</p>
         </Link>
         <nav>
-          <ul className="hidden md:flex gap-2">
+          <ul className="hidden sm:flex gap-2">
             <li>
               <Link href={"/"} className={buttonVariants({ variant: "ghost" })}>
                 Home
