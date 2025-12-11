@@ -1,8 +1,10 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CommentSection } from "@/components/web/CommentSection";
+import { PostPresence } from "@/components/web/PostPresence";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { getToken } from "@/lib/auth-server";
 import { fetchQuery, preloadQuery } from "convex/nextjs";
 import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
@@ -36,10 +38,13 @@ export async function generateMetadata({
 export default async function BlogDetailsPage({ params }: BlogIdRouteProps) {
   const { blogId } = await params;
 
+  const token = await getToken();
+
   // performance optimization: when we want to run two queries at the same time in parallel to reduce the render time
-  const [blog, preloadedComments] = await Promise.all([
+  const [blog, preloadedComments, userId] = await Promise.all([
     await fetchQuery(api.blogs.getBlogById, { blogId: blogId }),
     await preloadQuery(api.comments.getCommentsByBlogId, { blogId: blogId }),
+    await fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
 
   if (!blog) {
@@ -85,9 +90,12 @@ export default async function BlogDetailsPage({ params }: BlogIdRouteProps) {
           <h1 className="w-full text-3xl sm:text-4xl font-bold tracking-tight">
             {blog.title}
           </h1>
-          <p className="text-muted-foreground">
-            Posted on: {new Date(blog._creationTime).toLocaleDateString()}
-          </p>
+          <div className="flex gap-4 items-center">
+            <p className="text-muted-foreground">
+              Posted on: {new Date(blog._creationTime).toLocaleDateString()}
+            </p>
+            {userId && <PostPresence roomId={blog._id} userId={userId} />}
+          </div>
         </div>
       </div>
 
