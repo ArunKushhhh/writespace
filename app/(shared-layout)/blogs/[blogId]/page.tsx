@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CommentSection } from "@/components/web/CommentSection";
 import { PostPresence } from "@/components/web/PostPresence";
@@ -10,6 +10,7 @@ import { ArrowLeft } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 interface BlogIdRouteProps {
   params: Promise<{ blogId: Id<"blogs"> }>;
@@ -46,6 +47,12 @@ export default async function BlogDetailsPage({ params }: BlogIdRouteProps) {
     await preloadQuery(api.comments.getCommentsByBlogId, { blogId: blogId }),
     await fetchQuery(api.presence.getUserId, {}, { token }),
   ]);
+
+  // multi layer auth check in case the proxy fails
+  // this is a server side check, hence it won't fail
+  if (!userId) {
+    return redirect("/auth/sign-up");
+  }
 
   if (!blog) {
     return (

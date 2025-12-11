@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -112,6 +114,12 @@ export default function LoginPage() {
           </FieldGroup>
         </form>
       </CardContent>
+      <CardFooter className="flex gap-1">
+        Don't have an account?
+        <Link href="/auth/sign-up" className="text-red-500">
+          Register Now
+        </Link>
+      </CardFooter>
     </Card>
   );
 }

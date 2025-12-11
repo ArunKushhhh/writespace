@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const form = useForm({
@@ -134,6 +135,12 @@ export default function SignUpPage() {
           </FieldGroup>
         </form>
       </CardContent>
+      <CardFooter className="flex gap-1">
+        Already have an account?
+        <Link href="/auth/login" className="text-red-500">
+          Login Now
+        </Link>
+      </CardFooter>
     </Card>
   );
 }
