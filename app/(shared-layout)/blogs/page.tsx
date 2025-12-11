@@ -10,23 +10,29 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
 import { Metadata } from "next";
+import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "WriteSpace | Blogs",
   description: "Find what people around the globe think...",
   category: "Blogs",
-  authors: [{
-    name: "Austen"
-  }]
+  authors: [
+    {
+      name: "Austen",
+    },
+  ],
 };
 
-export const dynamic = "force-static"; // 'force-dynamic' | 'force-static' | "auto" | "error"
+// we should not use dynamic if we are using cache components
+
+// export const dynamic = "force-static"; // 'force-dynamic' | 'force-static' | "auto" | "error"
 
 // time based revalidation
-export const revalidate = 60; // false | 0 | number
+// export const revalidate = 60; // false | 0 | number
 
 //on demand validation
 
@@ -44,14 +50,20 @@ export default function BlogsPage() {
       </div>
 
       {/* blogs */}
-      <Suspense fallback={<SkeletonLoadingUi />}>
-        <LoadBlogList />
-      </Suspense>
+      {/* we also don't require suspense boundaries if we are using cache components */}
+      {/* <Suspense fallback={<SkeletonLoadingUi />}> */}
+      {/* this stays dynamic */}
+      <LoadBlogList />
+      {/* </Suspense> */}
     </div>
   );
 }
 
 async function LoadBlogList() {
+  // await connection(); //connection function can only be used inside suspense boundaries
+  "use cache";
+  cacheLife("hours");
+  cacheTag("blogs");
   const data = await fetchQuery(api.blogs.getBlogs);
 
   return (

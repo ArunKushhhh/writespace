@@ -6,7 +6,7 @@ import { fetchMutation } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import { getToken } from "@/lib/auth-server";
-import { revalidatePath } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function createBlogAction(data: z.infer<typeof blogSchema>) {
   try {
@@ -51,7 +51,12 @@ export async function createBlogAction(data: z.infer<typeof blogSchema>) {
   } catch (error) {
     throw new Error("Failed to create blog!");
   }
-  revalidatePath("/blogs");
+  // revalidatePath revalidates the data of whole page
+  // should only be used in we are not using cache components
+  // revalidatePath("/blogs");
+
+  // updateTag updates the data of specific tag, thus it is more efficient and gives better performance
+  updateTag("blogs");
 
   return redirect("/blogs");
 }
