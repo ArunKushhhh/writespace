@@ -6,6 +6,7 @@ import { fetchMutation } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { redirect } from "next/navigation";
 import { getToken } from "@/lib/auth-server";
+import { revalidatePath } from "next/cache";
 
 export async function createBlogAction(data: z.infer<typeof blogSchema>) {
   try {
@@ -50,6 +51,7 @@ export async function createBlogAction(data: z.infer<typeof blogSchema>) {
   } catch (error) {
     throw new Error("Failed to create blog!");
   }
+  revalidatePath("/blogs");
 
   return redirect("/blogs");
 }

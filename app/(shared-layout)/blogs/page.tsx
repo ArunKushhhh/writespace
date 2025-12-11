@@ -13,6 +13,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
+export const dynamic = "force-static"; // 'force-dynamic' | 'force-static' | "auto" | "error"
+
+// time based revalidation
+export const revalidate = 60; // false | 0 | number
+
+//on demand validation
+
 export default function BlogsPage() {
   return (
     <div className="py-12">
