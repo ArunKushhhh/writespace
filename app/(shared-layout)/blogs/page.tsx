@@ -1,16 +1,9 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
 import { Metadata } from "next";
-import { cacheLife, cacheTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { connection } from "next/server";
@@ -51,19 +44,19 @@ export default function BlogsPage() {
 
       {/* blogs */}
       {/* we also don't require suspense boundaries if we are using cache components */}
-      {/* <Suspense fallback={<SkeletonLoadingUi />}> */}
-      {/* this stays dynamic */}
-      <LoadBlogList />
-      {/* </Suspense> */}
+      <Suspense fallback={<SkeletonLoadingUi />}>
+        {/* this stays dynamic */}
+        <LoadBlogList />
+      </Suspense>
     </div>
   );
 }
 
 async function LoadBlogList() {
-  // await connection(); //connection function can only be used inside suspense boundaries
-  "use cache";
-  cacheLife("hours");
-  cacheTag("blogs");
+  await connection(); //connection function can only be used inside suspense boundaries
+  // "use cache";
+  // cacheLife("hours");
+  // cacheTag("blogs");
   const data = await fetchQuery(api.blogs.getBlogs);
 
   return (
