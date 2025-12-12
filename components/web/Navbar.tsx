@@ -8,6 +8,7 @@ import { useConvexAuth } from "convex/react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { SearchInput } from "./SearchInput";
 
 export function Navbar() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -50,6 +51,9 @@ export function Navbar() {
 
       {/* right: login/sign-up and theme toggle */}
       <div className="flex gap-2 items-center">
+        <div className="hidden sm:block">
+          <SearchInput />
+        </div>
         {isLoading ? null : isAuthenticated ? (
           <Button
             onClick={() =>

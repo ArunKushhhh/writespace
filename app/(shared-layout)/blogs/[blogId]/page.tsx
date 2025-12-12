@@ -101,8 +101,12 @@ export default async function BlogDetailsPage({ params }: BlogIdRouteProps) {
             <p className="text-muted-foreground">
               Posted on: {new Date(blog._creationTime).toLocaleDateString()}
             </p>
-            {userId && <PostPresence roomId={blog._id} userId={userId} />}
+            <p className="tracking-wide text-muted-foreground">
+              Written by:{" "}
+              <span className="text-primary">{blog.authorId}</span>{" "}
+            </p>
           </div>
+          {userId && <PostPresence roomId={blog._id} userId={userId} />}
         </div>
       </div>
 
