@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         port: "",
       },
+      {
+        hostname: "giddy-bandicoot-877.convex.cloud",
+        protocol: "https",
+        port: "",
+      },
     ],
   },
 };
